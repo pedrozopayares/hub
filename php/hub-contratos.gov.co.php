@@ -15,7 +15,7 @@ $post = [
     'numeroProceso' => '',
     'paginaActual' => '',
     'totalResultados' => '',
-    'registrosXPagina' => '50000', // How many fields you want to see in the results table
+    'registrosXPagina' => '50000', // How many fields you want to see in the results table. I want all!!!
     'paginaObjetivo' => 1,
     'opnegxdep' => '',
     'desdeFomulario' => true,
@@ -44,6 +44,7 @@ $response = curl_exec($ch);
 curl_close($ch);
 
 // do anything you want with your response
+$dom = new DOMDocument; 
 echo $response;
 
 ?>
