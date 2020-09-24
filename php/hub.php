@@ -2,22 +2,35 @@
 // set post fields
 $post = [
     'findEntidad' => 'LA GUAJIRA - CÁMARA DE COMERCIO DE LA GUAJIRA', // Company name in the correct format
-    'registrosXPagina' => '500', // How many fields you want to see in the results table
     'entidad' => '244001018', // Company code or ID in their system
-    /* 'estado' => '', // There are many others options, but you don´t need to know about it now.
+    // There are many others options, but you don´t need to know about it now.
+    'estado' => '', 
     'departamento' => '',
-    'municipio' => '',
+    'municipio' => 0,
     'tipoProceso' => '',
     'objeto' => '',
-    'cuantia' => '',
+    'cuantia' => 0,
     'fechaInicial' => '',
     'fechaFinal' => '',
     'numeroProceso' => '',
     'paginaActual' => '',
     'totalResultados' => '',
-    'paginaObjetivo' => '',
+    'registrosXPagina' => '50000', // How many fields you want to see in the results table
+    'paginaObjetivo' => 1,
     'opnegxdep' => '',
-    'desdeFomulario' => '' */
+    'desdeFomulario' => true,
+    'ctl00$ContentPlaceHolder1$hidIdOrgV' => -1,
+    'ctl00$ContentPlaceHolder1$hidIdEmpresaVenta' => -1,
+    'ctl00$ContentPlaceHolder1$hidIdEmpresaC' => 0,
+    'ctl00$ContentPlaceHolder1$hidIdOrgC' => -1,
+    'ctl00$ContentPlaceHolder1$hidNombreDemandante' => -1,
+    'ctl00$ContentPlaceHolder1$hidIDRubro' => -1,
+    'ctl00$ContentPlaceHolder1$hidRedir' => '',
+    'ctl00$ContentPlaceHolder1$hidRangoMaximoFecha' => '',
+    'ctl00$ContentPlaceHolder1$hidIDProducto' => -1,
+    'ctl00$ContentPlaceHolder1$hidIDProductoNoIngresado' => -1,
+    'ctl00$ContentPlaceHolder1$hidNombreProducto' => -1,
+    'ctl00$ContentPlaceHolder1$hidNombreProveedor' => -1
 ];
 
 $ch = curl_init('https://www.contratos.gov.co/consultas/resultadosConsulta.do');
