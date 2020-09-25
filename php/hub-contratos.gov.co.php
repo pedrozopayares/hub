@@ -42,29 +42,28 @@ $response = curl_exec($ch);
 // close the connection, release resources used
 curl_close($ch);
 
-//echo $response;
-// create a DomDocument HTML for generate to manipulate it before send response in a JSON file
+// Create a DomDocument Object to extract info from external site response 
+// Then you can send response in a JSON format to your app
 $dom = new DOMDocument; 
-libxml_use_internal_errors(true); //Avoid warnings break de script when de HTML is not valid
+libxml_use_internal_errors(true); //Avoid warnings break de script when de HTML is not 100% valid
 $dom->loadHTML($response);
 $tr = $dom->getElementsByTagName('tr');
 $total_rows = $tr->length;
+$data = []; //final array
 
-$columns_names = [];
-$data = [];
-
+// Classical for loop to traverse the rows and communes 
+// of the html table
 for ($i = 5; $i < $total_rows; $i++) {
-    $temp_row = [];
+    $temp_row = []; // to store row values in an array temporarily
     $row = $tr->item($i)->getElementsByTagName('td');
-    //print_r($row->item($j));
-    for ($j = 2; $j < $row->length; $j++) {
+    for ($j = 1; $j < $row->length; $j++) {
         $temp_row[] = $row->item($j)->textContent;
-        //$temp_row[$tr->item(0)->item($j)->textContent] = $tr[$i][$j]->textContent;
+        $temp_row['link'] = $row->item(1)->childNodes->item(1)->attributes[0]->textContent; // Horrible, but it works
     }
     $data[] = $temp_row;
 }
 
-print_r ($data[0]);
+print_r ($temp_row);
 
 //Extract columns names from first row of the table
 /*for ($i=0; $i<$total_columns;$i++) {
