@@ -56,7 +56,7 @@ $data = [];
 for ($i = 5; $i < $total_rows; $i++) {
     $temp_row = [];
     $row = $tr->item($i)->getElementsByTagName('td');
-    print_r($row->item($j));
+    //print_r($row->item($j));
     for ($j = 2; $j < $row->length; $j++) {
         $temp_row[] = $row->item($j)->textContent;
         //$temp_row[$tr->item(0)->item($j)->textContent] = $tr[$i][$j]->textContent;
