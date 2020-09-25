@@ -5,38 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hub</title>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-    <table id="results">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Apellido</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Javier</td>
-            <td>pedrozpayares</td>
-            <td>Pedrozo</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
+    <table id="results" class="table table-sm table-striped table-bordered"></table>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready( function () {
-            $('#results').DataTable();
-        } );
-    </script>
+        
+        // I will include this script in a Joomla module. 
+        // Because of this, I need to sure de DataTable script 
+        // is loaded when I call its class 
+        window.addEventListener("load", function(event) {
+            
+            //Initialization
+            var results_table;
+            var results_initialized = false; 
+            
+            // Add DataTable script
+            var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = '//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js';    
+          document.getElementsByTagName('head')[0].appendChild(script);
+          // When DataTable script is loaded, i can create its Object an call its methods
+          script.onload = function() {
+              results_table = $('#results').DataTable({
+                   'ajax': {
+                        type: 'POST',
+                        url: './php/hub-contratos.gov.co.php',
+                        dataSrc: 'data',
+                        complete: hideSpinner,
+                  },
+                  'columns': [
+                      { 'title': 'Número de proceso', 'data': 0 },
+                      { 'title': 'Tipo de proceso', 'data': 1 },
+                      { 'title': 'Estado', 'data': 2 },
+                      { 'title': 'Entidad', 'data': 3 },
+                      { 'title': 'Objeto', 'data': 4 },
+                      { 'title': 'Departamento y Municipio de ejecución', 'data': 5 },
+                      { 'title': 'Cuantía', 'data': 6 },
+                      { 'title': 'Fecha (dd-mm-aaa)', 'data': 7 },
+                      {
+                          'title': 'SECOP',
+                          'data': 'link',
+                          'render': function(data, type) {
+                              return '<a href="' + data + '" title="Ver detalles del contrato (Opens in new tab)" aria-label="Ver detalles del contrato (Opens in new tab)"><span class="fa fa-search-plus"></span> Ver detalles </a>';
+                          }
+                      }
+                   ],
+                   'ordering': true,
+                   'order': [[ 0, 'desc' ]],
+                   'lengthMenu': [[25, 50, -1], [25, 50, 'Todo']],
+                   'language': {
+                       'decimal':        '',
+                       'emptyTable':     'No se obtuvieron resultados para la consulta.',
+                          'info':           'Mostrando _START_ a _END_ de _TOTAL_ contratos',
+                          'infoEmpty':      'Mostrado 0 a 0 de 0 contratos',
+                          'infoFiltered':   '(filtrado de _MAX_ contratos)',
+                          'infoPostFix':    '',
+                          'thousands':      ',',
+                          'lengthMenu':     'Mostrar _MENU_ contratos',
+                          'loadingRecords': 'Cargando...',
+                          'processing':     'Procesando...',
+                          'search':         'Buscar:',
+                          'zeroRecords':    'No hay contratos que coincidan',
+                          'paginate': {
+                              'first':      'Primero',
+                              'last':       'Último',
+                              'next':       'Siguiente',
+                              'previous':   'Anterior'
+                          },
+                          'aria': {
+                              'sortAscending':  ': activar orden ascedente',
+                              'sortDescending': ': activar orden descendente'
+                          }
+                   }
+                   
+               });
+          }
+          
+          var showSpinner = function (){
+               $('#spinner').fadeIn();
+          };
+          
+          var hideSpinner = function (){
+               $('#spinner').fadeOut('fast');
+          };
+          
+          console.log('Todos los recursos terminaron de cargar!');
+        });
+          
+      </script>
 </body>
 </html>
