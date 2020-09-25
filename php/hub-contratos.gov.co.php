@@ -39,12 +39,37 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 // execute!
 $response = curl_exec($ch);
-
 // close the connection, release resources used
 curl_close($ch);
 
-// do anything you want with your response
+//echo $response;
+// create a DomDocument HTML for generate to manipulate it before send response in a JSON file
 $dom = new DOMDocument; 
-echo $response;
+libxml_use_internal_errors(true); //Avoid warnings break de script when de HTML is not valid
+$dom->loadHTML($response);
+$tr = $dom->getElementsByTagName('tr');
+$total_rows = $tr->length;
+
+$columns_names = [];
+$data = [];
+
+for ($i = 5; $i < $total_rows; $i++) {
+    $temp_row = [];
+    $row = $tr->item($i)->getElementsByTagName('td');
+    print_r($row->item($j));
+    for ($j = 2; $j < $row->length; $j++) {
+        $temp_row[] = $row->item($j)->textContent;
+        //$temp_row[$tr->item(0)->item($j)->textContent] = $tr[$i][$j]->textContent;
+    }
+    $data[] = $temp_row;
+}
+
+print_r ($data[0]);
+
+//Extract columns names from first row of the table
+/*for ($i=0; $i<$total_columns;$i++) {
+    $columns_names[] = $tr->item(300)[$i]->textContent;
+}*/
+//echo json_encode($dom->saveHtml($tr[0]));
 
 ?>
