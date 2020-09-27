@@ -15,5 +15,5 @@ urlDictionary = 'https://en.wikipedia.org/w/rest.php/v1/search/page?q='
 res = requests.get(urlDictionary, params = payload)
 data = json.loads(res.text)
 
-
 print(data['pages'][0]['title'])
+print(data['pages'][0]['excerpt'])
