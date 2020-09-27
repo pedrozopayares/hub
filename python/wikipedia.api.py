@@ -3,13 +3,16 @@
 import requests
 import json
 
+# Parameters for Wikipedia API
 urlLanguage = 'spa'
 urlOutput = 'json'
-wordSearch = 'python'.encode('utf-8')
+wordSearch = 'python'
 
-urlDictionary = 'https://en.wikipedia.org/w/rest.php/v1/search/page?q=' + str(wordSearch) + '&limit=10'
+payload = {'q': 'wordSearch', 'limit': '10'}
 
-res = requests.get(urlDictionary)
+urlDictionary = 'https://en.wikipedia.org/w/rest.php/v1/search/page?q='
+
+res = requests.get(urlDictionary, params = payload)
 data = json.loads(res.text)
 
 
