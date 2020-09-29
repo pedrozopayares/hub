@@ -1,11 +1,21 @@
 <?php 
 
-include ('./CompareText.php');
+include ('./CompareText.php'); // You can search this class if you want to add text comparation capabilities.
+
+/********************************************************************* */
+/****** This is a script to get data from a Google SpreadSheet.  ***** */
+/****** You need to setup your SpreadSheets to public view and   ***** */
+/****** access data through API URL specified below, in the      ***** */
+/****** $spreadsheet_base_URL variable.                          ***** */
+/********************************************************************* */
+
 
 class GoogleSpreadSheetsDataController {
 
+    // API URL preffix
     private $spreadsheet_base_URL = 'https://spreadsheets.google.com/feeds/list';
     
+    // method to get de data from Google SpreadSheets service
     function getSpreadSheetData ($google_spread_sheets_id, $spreadsheet_sheet, $spreadsheet_query_params, $format) {
         // Open cURL session
         $ch = curl_init();
@@ -31,6 +41,7 @@ class GoogleSpreadSheetsDataController {
 
     }
 
+    // As the name implies, convert JSON to array. I used it to normalize data access
     function convertSpreadSheetJSONToArray($rows){
         $total_rows = count($rows)-1;
         $entries = [];
@@ -59,6 +70,8 @@ class GoogleSpreadSheetsDataController {
         return $entries;
     }
 
+    // In the remote SpreadSheet I have a values organized by category
+    // I normalize access to this here
     function convertSpreadSheetCategoryJSONToArray($rows){
         $total_rows = count($rows)-1;
         $entries = [];
@@ -75,6 +88,8 @@ class GoogleSpreadSheetsDataController {
         return $entries;
     }
 
+    // External class to perform search operations over strings
+    // You can find this class in internet searching by its name: CompareText
     function compareCharsTextually($ch1, $ch2){
         if(CompareText::icpm($ch1, $ch2) === 0){
             return true;
@@ -97,6 +112,8 @@ class GoogleSpreadSheetsDataController {
             }
         }
     }
+
+    // Some operations over arrays are applied from here
     function filterArray($array, $value) {
         $array_filtered = [];
         foreach ($array as $item) {
