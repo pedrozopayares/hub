@@ -51,7 +51,7 @@ $dom->loadHTML($response);
 $tr = $dom->getElementsByTagName('tr');
 $total_rows = $tr->length;
 $data = []; //final array
-
+$url = "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia="; //Details view updated
 // Classical for loop to traverse the rows and communes 
 // of the html table
 for ($i = 1; $i < $total_rows; $i++) { // Warning: I'm not using the first data row at index 0, maybe you need to change 1 to 0 in this line
@@ -60,8 +60,8 @@ for ($i = 1; $i < $total_rows; $i++) { // Warning: I'm not using the first data 
     for ($j = 1; $j < $row->length; $j++) { // Warning: I'm not using the first data column at index 0, maybe you need to change 1 to 0 in this line
         $temp_row[] = $row->item($j)->textContent;
         $temp_row['link'] = $row->item(1)->childNodes->item(1)->attributes[0]->textContent; // Horrible, but it works
-        $temp_row['link'] = str_replace("javascript: popUpSecop('/", '', $temp_row['link']); // I need to clean the link href text
-        $temp_row['link'] = $url . str_replace(")", '', $temp_row['link']); // And add the site url prefix
+        $temp_row['link'] = str_replace("javascript: consultaProceso('", '', $temp_row['link']); // I need to clean the link href text
+        $temp_row['link'] = $url . str_replace("')", '', $temp_row['link']); // And add the site url prefix
     }
     $data[] = $temp_row;
 }
